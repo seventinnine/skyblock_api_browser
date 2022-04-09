@@ -1,0 +1,45 @@
+﻿<Window x:Class="Skyblock.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Skyblock.UI"
+        xmlns:controls="clr-namespace:Skyblock.UI.Controls"
+        xmlns:listviewmodels="clr-namespace:Skyblock.UI.ViewModels.List"
+        xmlns:lists="clr-namespace:Skyblock.UI.Controls.List"
+        xmlns:viewmodels="clr-namespace:Skyblock.UI.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Title="Skyblock Auctions" Height="700" Width="1000">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/res.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="125"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:MenuBar Grid.Row="0" DataContext="{Binding MenuVM}"></controls:MenuBar>
+        <controls:APILoader Grid.Row="1" DataContext="{Binding ApiLoaderVM}"></controls:APILoader>
+        <controls:SearchFilter Grid.Row="2" DataContext="{Binding SearchFilterVM}"></controls:SearchFilter>
+
+        <Grid Grid.Row="3" Margin="10">
+                <lists:AuctionFilter DataContext="{Binding AuctionFilterVM}"></lists:AuctionFilter>
+
+            </Grid>
+        <Button Grid.Row="4"
+                    Style="{StaticResource ButtonStyle}"
+                    Command="{Binding RefreshListCommand}"
+                    Content="Reload"></Button>
+    </Grid>
+    <Window.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding RefreshListCommand}"/>
+    </Window.InputBindings>
+</Window>

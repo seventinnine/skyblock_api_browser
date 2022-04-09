@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Skyblock.UI.Controls.List.AuctionFilter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Skyblock.UI.Controls.List"
+             xmlns:list="clr-namespace:Skyblock.UI.ViewModels.List"
+             d:DataContext="{d:DesignInstance Type=list:AuctionFilterViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" x:Key="RightCell">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding FilteredAuctions}"
+                  SelectedItem="{Binding SelectedAuction}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" />
+                <DataGridTextColumn Header="Level" Binding="{Binding PetLevel}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding StartingBid, StringFormat={}{0:N0}}" ElementStyle="{StaticResource RightCell}" />
+                <DataGridCheckBoxColumn Header="BIN" Binding="{Binding Bin}"/>
+                <DataGridTextColumn Header="Tier" Binding="{Binding Tier}" />
+            </DataGrid.Columns>
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDown" Handler="Row_Click"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ItemLore}"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+    </Grid>
+</UserControl>

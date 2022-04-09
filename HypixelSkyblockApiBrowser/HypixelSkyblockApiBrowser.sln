@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.Domain", "Skyblock.Domain\Skyblock.Domain.csproj", "{66D0ECF5-B245-415C-A1C0-E3E4D384DFD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.Client", "Skyblock.Client\Skyblock.Client.csproj", "{7EFD6213-10D6-4711-A42F-73F7641722E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.Logic", "Skyblock.Logic\Skyblock.Logic.csproj", "{C50DF74D-F187-4685-B62C-8E434B3BF845}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.UI", "Skyblock.UI\Skyblock.UI.csproj", "{D78CBF20-3D24-4D10-93E3-1B4D1F6A3C29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyblock.API", "Skyblock.API\Skyblock.API.csproj", "{E7E29EF7-95E3-464B-BFD2-4AC15F471222}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66D0ECF5-B245-415C-A1C0-E3E4D384DFD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D0ECF5-B245-415C-A1C0-E3E4D384DFD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D0ECF5-B245-415C-A1C0-E3E4D384DFD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D0ECF5-B245-415C-A1C0-E3E4D384DFD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFD6213-10D6-4711-A42F-73F7641722E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFD6213-10D6-4711-A42F-73F7641722E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFD6213-10D6-4711-A42F-73F7641722E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFD6213-10D6-4711-A42F-73F7641722E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C50DF74D-F187-4685-B62C-8E434B3BF845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C50DF74D-F187-4685-B62C-8E434B3BF845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C50DF74D-F187-4685-B62C-8E434B3BF845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C50DF74D-F187-4685-B62C-8E434B3BF845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D78CBF20-3D24-4D10-93E3-1B4D1F6A3C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D78CBF20-3D24-4D10-93E3-1B4D1F6A3C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D78CBF20-3D24-4D10-93E3-1B4D1F6A3C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D78CBF20-3D24-4D10-93E3-1B4D1F6A3C29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E29EF7-95E3-464B-BFD2-4AC15F471222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E29EF7-95E3-464B-BFD2-4AC15F471222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E29EF7-95E3-464B-BFD2-4AC15F471222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E29EF7-95E3-464B-BFD2-4AC15F471222}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90FC8DCF-174C-4D09-8272-F77B0A80023F}
+	EndGlobalSection
+EndGlobal

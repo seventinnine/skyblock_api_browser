@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Skyblock.UI.Controls.List.BitPrices"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Skyblock.UI.Controls.List"
+             xmlns:list="clr-namespace:Skyblock.UI.ViewModels.List"
+             d:DataContext="{d:DesignInstance Type=list:BitPricesViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DataGrid ItemsSource="{Binding BitPrices}"
+              AutoGenerateColumns="False"
+              IsReadOnly="True"
+              CanUserAddRows="False">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" />
+            <DataGridTextColumn Header="Item Count" Binding="{Binding ItemCount}" />
+            <DataGridTextColumn Header="Coins Per Bit" Binding="{Binding CoinsPerBit}" />
+            <DataGridTextColumn Header="Price in Bits" Binding="{Binding PriceInBits}" />
+            <DataGridTextColumn Header="Average Price" Binding="{Binding AveragePrice}"/>
+        </DataGrid.Columns>
+        <DataGrid.RowDetailsTemplate>
+            <DataTemplate>
+                <DataGrid ItemsSource="{Binding Auctions}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Price" Binding="{Binding StartingBid}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DataTemplate>
+        </DataGrid.RowDetailsTemplate>
+    </DataGrid>
+</UserControl>

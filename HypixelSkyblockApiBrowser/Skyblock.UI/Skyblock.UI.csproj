@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Skyblock.Client\Skyblock.Client.csproj" />
+    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Domain.csproj" />
+    <ProjectReference Include="..\Skyblock.Logic\Skyblock.Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Windows\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\List\AccessoryPrices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\List\AccessoryPrices.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>AccessoryPrices.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
