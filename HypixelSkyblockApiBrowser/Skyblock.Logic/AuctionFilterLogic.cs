@@ -154,7 +154,15 @@ namespace Skyblock.Logic
     {
         public static IList<Auction> ApplyFilter(this IList<Auction> auctions, AuctionQuery query)
         {
-            var rx = new Regex(query.ItemName, options: RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+            Regex rx = null;
+            try
+            {
+                rx = new Regex(query.ItemName, options: RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+            }
+            catch (Exception ex)
+            {
+
+            }
             IEnumerable<Auction> res = auctions;
             if (query.SelectedCategory != Category.Any)
                 res = res.Where(a => a.Category == query.SelectedCategory);
@@ -165,7 +173,7 @@ namespace Skyblock.Logic
             res =
                 from curr in res
                 where curr.Bin == query.Bin
-                      && rx.IsMatch(curr.ItemName)
+                      && (rx?.IsMatch(curr.ItemName) ?? false)
                       && (query.LoreContains.All(item => curr.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)) || query.LoreContains.Count == 0)
                       && !query.LoreDoesNotContain.Any(item => curr.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase))
                       && (query.MinimumStars == Misc.NoStars || curr.ItemName.Contains(query.MinimumStars))
