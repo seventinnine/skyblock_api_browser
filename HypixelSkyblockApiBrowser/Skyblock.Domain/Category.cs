@@ -17,7 +17,7 @@ namespace Skyblock.Domain
     }
     public static class Categories
     {
-        public static string[] List = new string[]
+        public static readonly string[] List = new string[]
         {
             "Any",
             "Weapon",

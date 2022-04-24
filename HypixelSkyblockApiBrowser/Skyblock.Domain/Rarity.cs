@@ -22,7 +22,7 @@ namespace Skyblock.Domain
     }
     public static class Rarities
     {
-        public static string[] List = new string[]
+        public static readonly string[] List = new string[]
         {
             "Any",
             "Common",

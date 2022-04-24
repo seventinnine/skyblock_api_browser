@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Skyblock.Logic;
+using AutoMapper;
+using Skyblock.API.AutoMapper;
 
 namespace Skyblock.API
 {
@@ -21,12 +23,15 @@ namespace Skyblock.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddAutoMapper(typeof(MappingProfile));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Skyblock.API", Version = "v1" });
             });
             services.AddSingleton<RequestCacher>();
+            services.AddSingleton<IAuctionFilterLogic, AuctionFilterLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

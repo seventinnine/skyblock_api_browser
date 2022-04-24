@@ -30,7 +30,10 @@ namespace Skyblock.Domain
         [JsonProperty(Required = Required.DisallowNull)]
         public List<string> LoreDoesNotContain { get; set; }
 
-        public override bool Equals(object? obj)
+        [JsonProperty(Required = Required.DisallowNull)]
+        public string MinimumStars { get; set; }
+
+        public override bool Equals(object obj)
         {
             if (obj is null or not AuctionQuery) return false;
             var other = (AuctionQuery) obj;
@@ -41,7 +44,8 @@ namespace Skyblock.Domain
                    && SelectedCategory == other.SelectedCategory
                    && Math.Abs(MaxPrice - other.MaxPrice) < DoubleComparisonTolerance
                    && LoreContains.SequenceEqual(other.LoreContains)
-                   && LoreDoesNotContain.SequenceEqual(other.LoreDoesNotContain);
+                   && LoreDoesNotContain.SequenceEqual(other.LoreDoesNotContain)
+                   && MinimumStars.Equals(other.MinimumStars);
         }
     }
 }

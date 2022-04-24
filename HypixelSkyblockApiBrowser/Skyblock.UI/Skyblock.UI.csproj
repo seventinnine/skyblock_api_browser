@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Windows\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Controls\List\AccessoryPrices.xaml">
       <SubType>Designer</SubType>
     </Page>

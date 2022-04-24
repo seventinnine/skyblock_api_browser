@@ -14,7 +14,7 @@ namespace Skyblock.UI.ViewModels.List
     {
         public Auction SelectedAuction { get => selectedAuction; set => Set(ref selectedAuction, value); }
         public IList<Auction> Auctions { get; set; }
-        private AuctionFilterLogic _logic;
+        private readonly AuctionFilterLogic _logic;
         private ObservableCollection<Auction> filteredAuctions;
         private Auction selectedAuction;
 

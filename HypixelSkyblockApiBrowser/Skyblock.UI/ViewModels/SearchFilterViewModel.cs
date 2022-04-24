@@ -13,6 +13,7 @@ namespace Skyblock.UI.ViewModels
     {
         public string[] AllRarities { get; set; } = Rarities.List;
         public string[] AllCategories { get; set; } = Categories.List;
+        public string[] AllStars { get; set; } = Misc.StarOptions;
         private string itemName;
         public string ItemName { get => itemName; set => Set(ref itemName, value); }
         private string itemLoreContains1;
@@ -33,6 +34,8 @@ namespace Skyblock.UI.ViewModels
         public Category SelectedCategory { get => selectedCategory; set => Set(ref selectedCategory, value); }
         private string maxPrice;
         public string MaxPrice { get => maxPrice; set => Set(ref maxPrice, value); }
+        private string selectedStars;
+        public string SelectedStars { get => selectedStars; set => Set(ref selectedStars, value); }
 
         public SearchFilterViewModel()
         {
@@ -73,6 +76,7 @@ namespace Skyblock.UI.ViewModels
                 MaxPrice = int.TryParse(MaxPrice, out int res) ? res : 0,
                 LoreContains = new List<string>(){ItemLoreContains1, ItemLoreContains2, ItemLoreContains3}.Where(s => s != "").ToList(),
                 LoreDoesNotContain = new List<string>(){ItemLoreDoesNotContain1, ItemLoreDoesNotContain2}.Where(s => s != "").ToList(),
+                MinimumStars = SelectedStars
             };
         }
     }

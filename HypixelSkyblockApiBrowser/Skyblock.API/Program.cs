@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -22,5 +23,6 @@ namespace Skyblock.API
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+    
     }
 }
