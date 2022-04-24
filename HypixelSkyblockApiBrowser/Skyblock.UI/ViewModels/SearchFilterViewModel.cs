@@ -49,6 +49,7 @@ namespace Skyblock.UI.ViewModels
             SelectedRarity = Rarity.Any;
             SelectedCategory = Category.Any;
             MaxPrice = "0";
+            SelectedStars = Misc.NoStars;
         }
         
         [Obsolete("cock")]
