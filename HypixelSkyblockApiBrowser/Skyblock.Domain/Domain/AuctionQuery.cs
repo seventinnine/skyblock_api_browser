@@ -4,11 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Skyblock.Common.Interfaces;
 
 namespace Skyblock.Common.Domain
 {
-    public class AuctionQuery
+    public class AuctionQuery : IPageable
     {
+        [JsonProperty(Required = Required.Always)]
+        public int Page { get; set; }
+
+        [JsonProperty(Required = Required.Always)]
+        public int AuctionsPerPage { get; set; }
+
         [JsonProperty(Required = Required.Always)]
         public string ItemName { get; set; }
 
@@ -36,6 +43,8 @@ namespace Skyblock.Common.Domain
 
         public AuctionQuery()
         {
+            Page = 1;
+            AuctionsPerPage = 50;
             ItemName = "";
             Bin = true;
             LoreContains = new List<string>();

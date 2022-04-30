@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Skyblock.Logic;
-using AutoMapper;
 using Skyblock.API.AutoMapper;
 using Skyblock.Client;
+using Skyblock.API.BackgroundServices;
 
 namespace Skyblock.API
 {

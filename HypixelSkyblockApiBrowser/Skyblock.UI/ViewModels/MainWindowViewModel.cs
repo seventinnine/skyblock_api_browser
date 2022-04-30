@@ -10,7 +10,7 @@ namespace Skyblock.UI.ViewModels
     public class MainWindowViewModel : NotifyPropertyChanged
     {
         private bool refreshing;
-        private readonly AuctionFilterLogic _logic;
+        private readonly AuctionFilterLogicWPF _logic;
 
         public ApiLoaderViewModel ApiLoaderVM { get; set; }
         public MenuViewModel MenuVM { get; set; }
@@ -20,7 +20,7 @@ namespace Skyblock.UI.ViewModels
         public SearchFilterViewModel SearchFilterVM { get; set; }
         public ICommand RefreshListCommand { get; set; }
 
-        public MainWindowViewModel(AuctionFilterLogic logic)
+        public MainWindowViewModel(AuctionFilterLogicWPF logic)
         {
             _logic = logic;
             ApiLoaderVM = new ApiLoaderViewModel();
@@ -37,14 +37,14 @@ namespace Skyblock.UI.ViewModels
             await ApiLoaderVM.InitializeAsync();
         }
 
-        private async Task RefreshList(object _)
+        private async Task RefreshList(object? _)
         {
             refreshing = true;
             await AuctionFilterVM.RefreshList(SearchFilterVM.ToAuctionQuery());
             refreshing = false;
         }
 
-        private bool CanRefreshList(object _)
+        private bool CanRefreshList(object? _)
         {
             return ApiLoaderVM.Auctions is not null && !refreshing;
         }

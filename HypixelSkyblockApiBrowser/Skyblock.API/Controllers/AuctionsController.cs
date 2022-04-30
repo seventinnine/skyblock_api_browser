@@ -37,7 +37,7 @@ namespace Skyblock.API.Controllers
 
         [HttpGet]
         [Route("accessories")]
-        public async Task<ActionResult<IEnumerable<AuctionDTO>>> GetAccessories([FromQuery] AccessoryQuery query)
+        public async Task<ActionResult<PagedResult<AuctionDTO>>> GetAccessories([FromQuery] AccessoryQuery query)
         {
             return Ok(await logic.CalculateAccessoryPricesAsync(query));
         }

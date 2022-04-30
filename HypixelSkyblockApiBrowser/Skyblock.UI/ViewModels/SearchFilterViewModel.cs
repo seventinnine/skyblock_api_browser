@@ -40,17 +40,17 @@ namespace Skyblock.UI.ViewModels
 
         public SearchFilterViewModel()
         {
-            ItemLoreContains1 = "";
-            ItemLoreContains2 = "";
-            ItemLoreContains3 = "";
-            ItemLoreDoesNotContain1 = "";
-            ItemLoreDoesNotContain2 = "";
-            ItemName = "";
-            Bin = true;
-            SelectedRarity = Rarity.Any;
-            SelectedCategory = Category.Any;
-            MaxPrice = "0";
-            SelectedStars = Constants.NoStars;
+            itemLoreContains1 = "";
+            itemLoreContains2 = "";
+            itemLoreContains3 = "";
+            itemLoreDoesNotContain1 = "";
+            itemLoreDoesNotContain2 = "";
+            itemName = "";
+            bin = true;
+            selectedRarity = Rarity.Any;
+            selectedCategory = Category.Any;
+            maxPrice = "0";
+            selectedStars = Constants.NoStars;
         }
         
         public AuctionQuery ToAuctionQuery()

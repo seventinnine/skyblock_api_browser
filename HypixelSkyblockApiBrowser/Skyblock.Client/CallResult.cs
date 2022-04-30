@@ -13,6 +13,11 @@ namespace Skyblock.Client
         public int TotalPages { get; set; }
         public int TotalAuctions { get; set; }
         public long LastUpdated { get; set; }
-        public List<AuctionData> Auctions { get; set; }
+        public IList<AuctionData> Auctions { get; set; }
+
+        public CallResult()
+        {
+            Auctions = new List<AuctionData>();
+        }
     }
 }

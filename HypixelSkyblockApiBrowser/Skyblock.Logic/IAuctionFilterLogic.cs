@@ -10,10 +10,6 @@ namespace Skyblock.Logic
     {
         Task<IEnumerable<BitPriceDTO>> CalculateBitPricesAsync();
         Task<IEnumerable<AccessoryPriceDTO>> CalculateAccessoryPricesAsync(AccessoryQuery query);
-        Task<IEnumerable<AuctionDTO>> FilterAuctionsAsync(AuctionQuery query);
-
-        Task<IEnumerable<BitPrice>> CalculateBitPricesAsync(IList<Auction> auctions);
-        Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPricesAsync(IList<Auction> auctions);
-        Task<IEnumerable<Auction>> FilterAuctionsAsync(AuctionQuery query, IList<Auction> auctions);
+        Task<PagedResult<AuctionDTO>> FilterAuctionsAsync(AuctionQuery query);
     }
 }

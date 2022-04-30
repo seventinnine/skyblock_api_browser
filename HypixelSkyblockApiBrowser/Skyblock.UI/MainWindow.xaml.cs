@@ -12,7 +12,7 @@ namespace Skyblock.UI
         public MainWindow()
         {
             InitializeComponent();
-            var logic = new AuctionFilterLogic(null, null);
+            var logic = new AuctionFilterLogicWPF();
             var model = new MainWindowViewModel(logic);
             DataContext = model;
             Loaded += async (s, e) => await model.InitializeAsync();

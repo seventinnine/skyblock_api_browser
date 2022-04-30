@@ -12,13 +12,13 @@ namespace Skyblock.UI.ViewModels.List
 {
     public class AccessoryPricesViewModel : NotifyPropertyChanged
     {
-        public IList<Auction> Auctions { get; set; }
-        private readonly AuctionFilterLogic logic;
-        private ObservableCollection<AccessoryPrice> accessoryPrices;
+        public IList<Auction>? Auctions { get; set; }
+        private readonly AuctionFilterLogicWPF logic;
+        private ObservableCollection<AccessoryPrice>? accessoryPrices;
 
-        public ObservableCollection<AccessoryPrice> AccessoryPrices { get => accessoryPrices; set => Set(ref accessoryPrices, value); }
+        public ObservableCollection<AccessoryPrice>? AccessoryPrices { get => accessoryPrices; set => Set(ref accessoryPrices, value); }
 
-        public AccessoryPricesViewModel(AuctionFilterLogic logic)
+        public AccessoryPricesViewModel(AuctionFilterLogicWPF logic)
         {
             this.logic = logic;
         }
