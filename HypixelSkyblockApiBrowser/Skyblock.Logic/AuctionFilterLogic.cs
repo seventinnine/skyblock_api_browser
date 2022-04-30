@@ -10,144 +10,144 @@ using Skyblock.Logic.Helper;
 using System.Text.RegularExpressions;
 using AutoMapper;
 using Skyblock.Common.Domain;
-using System.Data.Entity;
 using Skyblock.Common.DTOs;
+using Skyblock.Client;
 
 namespace Skyblock.Logic
 {
     public class AuctionFilterLogic : IAuctionFilterLogic
     {
-        private const int ItemCount = 5;
+        public const int ItemCountBits = 5;
+        public const int ItemCountAccessories = 1;
         
-        private IList<Auction> _auctions = new List<Auction>();
-        private readonly FilterCache cacher = new();
-        private readonly IMapper? mapper;
+        private readonly IMapper mapper;
+        private readonly APIClient apiClient;
 
-        public AuctionFilterLogic(IMapper? mapper = null)
+        public AuctionFilterLogic(IMapper mapper, APIClient apiClient)
         {
             this.mapper = mapper;
+            this.apiClient = apiClient;
         }
 
-        public async Task<IEnumerable<BitPrice>> CalculateBitPricesAsync()
+        public async Task<IEnumerable<BitPriceDTO>> CalculateBitPricesAsync()
         {
-            if (cacher.TryGetFromCache(out var cachedResult)) return cachedResult;
-            var res = (await CalculateBitPricesAsync(_auctions)).ToList();
-            cacher.Put(res);
-            return res;
+            var auctionsCopy = apiClient.CurrentData.Get();
+            var bitPrices = await auctionsCopy.ApplyFilterAsync();
+            return mapper!.Map<IList<BitPriceDTO>>(bitPrices);
         }
 
-        public async Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPricesAsync(AccessoryQuery query)
+        public async Task<IEnumerable<AccessoryPriceDTO>> CalculateAccessoryPricesAsync(AccessoryQuery query)
         {
-            throw new NotImplementedException();
+            var auctionsCopy = apiClient.CurrentData.Get();
+            var accessoryPrices = await auctionsCopy.ApplyFilterAsync(query);
+            return mapper!.Map<IList<AccessoryPriceDTO>>(accessoryPrices);
         }
 
         public async Task<IEnumerable<AuctionDTO>> FilterAuctionsAsync(AuctionQuery query)
         {
-            // try read result from cache
-            if (cacher.TryGetFromCache(query, out var cachedResult)) return mapper!.Map<IList<AuctionDTO>>(cachedResult);
-
-            // queue for evaluation
-
-            IList<Auction> filteredAuctions = await _auctions.AsQueryable().ApplyFilterAsync(query);
-            var mappedAuctions = mapper!.Map<IList<AuctionDTO>>(filteredAuctions);
-            cacher.Put(query, mappedAuctions);
-            return mappedAuctions;
+            var auctionsCopy = apiClient.CurrentData.Get();
+            var filteredAuctions = await auctionsCopy.ApplyFilterAsync(query);
+            return mapper!.Map<IList<AuctionDTO>>(filteredAuctions);
         }
 
         #region Old
 
-        public async Task<IEnumerable<BitPrice>> CalculateBitPricesAsync(IList<Auction> allAuctions)
+        public async Task<IEnumerable<BitPrice>> CalculateBitPricesAsync(IList<Auction> auctions)
         {
-            var res = new List<BitPrice>();
-            await Task.Run(() =>
-            {
-                Parallel.ForEach(BitPrices.Items, (item) =>
-                {
-                    var filtered = (from curr in allAuctions
-                                    where curr.Bin
-                                          && curr.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase)
-                                          && curr.ItemLore.Contains(item.ItemLore, StringComparison.InvariantCultureIgnoreCase)
-                                    orderby curr.StartingBid ascending
-                                    select curr).ToList();
-
-                    var itemCount = filtered.Count;
-                    if (itemCount < ItemCount) return;
-
-                    var firstXItems = filtered.Take(ItemCount).ToList();
-                    var avg = firstXItems.Average(it => it.StartingBid);
-                    var coinsPerBit = avg / item.BitPrice;
-                    var newEntry = new BitPrice
-                    {
-                        ItemName = item.ToString(),
-                        PriceInBits = item.BitPrice,
-                        CoinsPerBit = (int)coinsPerBit,
-                        ItemCount = itemCount,
-                        AveragePrice = avg,
-                        Auctions = new ObservableCollection<Auction>(firstXItems)
-                    };
-
-                    lock (res)
-                    {
-                        res.Add(newEntry);
-                    }
-                });
-            });
-
-            return res.OrderByDescending(item => item.CoinsPerBit);
+            return await auctions.ApplyFilterAsync();
         }
 
-        public async Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPricesAsync(IList<Auction> allAuctions)
+        public async Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPricesAsync(IList<Auction> auctions)
         {
-            var res = new List<AccessoryPrice>();
-            await Task.Run(() =>
-            {
-                Parallel.ForEach(Accessories.Items, (item) =>
-                {
-                    var filtered = (from curr in allAuctions
-                                    where curr.Bin
-                                        && curr.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase)
-                                        && (item.Rarity == Rarity.Any || curr.Tier == item.Rarity)
-                                    orderby curr.StartingBid ascending
-                                    select curr).ToList();
-
-                    var itemCount = filtered.Count;
-                    Debug.WriteLine($"{item.ItemName} ({itemCount})");
-                    if (itemCount < 1) return;
-
-                    var firstXItems = filtered.Take(ItemCount).ToList();
-                    var avg = firstXItems.Average(it => it.StartingBid);
-                    var newEntry = new AccessoryPrice
-                    {
-                        ItemName = item.ToString(),
-                        ItemCount = itemCount,
-                        Rarity = item.Rarity,
-                        AveragePrice = (int)avg,
-                        Auctions = new ObservableCollection<Auction>(filtered)
-                    };
-
-                    lock (res)
-                    {
-                        res.Add(newEntry);
-                    }
-                });
-            });
-
-            return res.OrderBy(item => item.AveragePrice);
+            return await auctions.ApplyFilterAsync(new AccessoryQuery());
         }
 
         public async Task<IEnumerable<Auction>> FilterAuctionsAsync(AuctionQuery query, IList<Auction> auctions)
         {
-            this._auctions = auctions;
-            return await auctions.AsQueryable().ApplyFilterAsync(query);
+            return await auctions.ApplyFilterAsync(query);
         }
 
         #endregion
 
+        #region private
+
+        #endregion
+
+
     }
 
-    public static class AuctionFilterLogicExtensions
+    static class AuctionFilterLogicExtensions
     {
-        public static async Task<IList<Auction>> ApplyFilterAsync(this IQueryable<Auction> auctions, AuctionQuery query)
+        public static async Task<IList<BitPrice>> ApplyFilterAsync(this IList<Auction> auctions)
+        {
+            var res = new List<BitPrice>();
+
+            await Task.Run(() =>
+            {
+                foreach (var item in BitPrices.Items)
+                {
+                    var filtered = auctions
+                        .Where(a => a.Bin == true)
+                        .Where(a => a.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase))
+                        .Where(a => a.ItemLore.Contains(item.ItemLore, StringComparison.InvariantCultureIgnoreCase))
+                        .OrderBy(a => a.StartingBid)
+                        .ToList();
+
+                    if (filtered.Count < AuctionFilterLogic.ItemCountBits) continue;
+
+                    var firstXItems = filtered.Take(AuctionFilterLogic.ItemCountBits).ToList();
+                    double avg = firstXItems.Average(it => it.StartingBid);
+                    double coinsPerBit = avg / item.BitPrice;
+                    BitPrice newEntry = new()
+                    {
+                        ItemName = item.ToString(),
+                        PriceInBits = item.BitPrice,
+                        CoinsPerBit = (int)coinsPerBit,
+                        ItemCount = filtered.Count,
+                        AveragePrice = avg,
+                        Auctions = new ObservableCollection<Auction>(firstXItems)
+                    };
+                    res.Add(newEntry);
+                }
+            });
+
+            return res.OrderByDescending(bp => bp.CoinsPerBit).ToList();
+        }
+
+        public static async Task<IList<AccessoryPrice>> ApplyFilterAsync(this IList<Auction> auctions, AccessoryQuery query)
+        {
+            var res = new List<AccessoryPrice>();
+
+            await Task.Run(() =>
+            {
+                foreach (var item in Accessories.Items)
+                {
+                    var filtered = auctions
+                        .Where(a => a.Bin == true)
+                        .Where(a => a.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase))
+                        .Where(a => item.Rarity == Rarity.Any || a.Tier == item.Rarity)
+                        .OrderBy(a => a.StartingBid)
+                        .ToList();
+
+                    if (filtered.Count < AuctionFilterLogic.ItemCountAccessories) continue;
+
+                    var firstXItems = filtered.Take(AuctionFilterLogic.ItemCountAccessories).ToList();
+                    double avg = firstXItems.Average(it => it.StartingBid);
+                    AccessoryPrice newEntry = new()
+                    {
+                        ItemName = item.ToString(),
+                        ItemCount = filtered.Count,
+                        Rarity = item.Rarity,
+                        AveragePrice = (int)avg,
+                        Auctions = new ObservableCollection<Auction>(firstXItems)
+                    };
+                    res.Add(newEntry);
+                }
+            });
+            return res.OrderBy(ap => ap.AveragePrice).ToList();
+        }
+
+        public static async Task<IList<Auction>> ApplyFilterAsync(this IList<Auction> auctions, AuctionQuery query)
         {
             Regex? rx = null;
             try
@@ -160,7 +160,10 @@ namespace Skyblock.Logic
                 return new List<Auction>();
             }
 
-            return await auctions
+            var res = new List<Auction>();
+            await Task.Run(() =>
+            {
+                res = auctions
                 .Where(a => query.SelectedCategory != Category.Any || a.Category == query.SelectedCategory)
                 .Where(a => query.SelectedRarity != Rarity.Any || a.Tier == query.SelectedRarity)
                 .Where(a => query.MaxPrice > 0 || a.StartingBid <= query.MaxPrice)
@@ -170,8 +173,9 @@ namespace Skyblock.Logic
                 .Where(a => !query.LoreDoesNotContain.Any(item => a.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)))
                 .Where(a => query.MinimumStars == Constants.NoStars || a.ItemName.Contains(query.MinimumStars))
                 .OrderBy(a => a.StartingBid)
-                .ToListAsync();
-
+                .ToList();
+            });
+            return res;
         }
     }
     

@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Skyblock.Logic;
 using AutoMapper;
 using Skyblock.API.AutoMapper;
+using Skyblock.Client;
 
 namespace Skyblock.API
 {
@@ -22,15 +23,15 @@ namespace Skyblock.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddAutoMapper(typeof(MappingProfile));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Skyblock.API", Version = "v1" });
             });
-            services.AddSingleton<FilterCache>();
+            services.AddHostedService<APIClientBackgroundService>();
+            services.AddSingleton<APIClient>();
             services.AddSingleton<IAuctionFilterLogic, AuctionFilterLogic>();
         }
 

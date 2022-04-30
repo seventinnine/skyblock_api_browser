@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Skyblock.Common.Domain;
+using Skyblock.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -18,6 +20,8 @@ namespace Skyblock.Client
         private const string requestParams = "&page=";
         private static readonly int API_LIMIT_MS = 502;
         private readonly static HttpClient client = new();
+
+        public AtomicReference<List<Auction>> CurrentData = new();
 
         public event ProgressChangedEvent ProgressChanged;
 
@@ -44,12 +48,18 @@ namespace Skyblock.Client
 
             do
             {
+                Debug.WriteLine($"Fetching page {currPage} ...");
                 callRes = await GetCallResult(currPage++);
                 if (callRes.Success == true) res = res.Concat(callRes.Auctions).ToList();
 
-            } while (callRes.Success == true);
+            } while (callRes.Success == true && currPage < 10);
+            CurrentData.Set(res.ToDomains().ToList());
 
-            return res.ToDomains();
+            var dataRef = CurrentData.Get();
+            //await File.WriteAllTextAsync($"./data/{DateTime.Now:yyyy_mm_dd-hh_mm_ss}.json", JsonConvert.SerializeObject(dataRef));
+            await File.WriteAllTextAsync($"./data/auctions.json", JsonConvert.SerializeObject(dataRef));
+
+            return dataRef;
         }
 
     }

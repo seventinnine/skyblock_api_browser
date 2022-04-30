@@ -8,8 +8,8 @@ namespace Skyblock.Logic
 {
     public interface IAuctionFilterLogic
     {
-        Task<IEnumerable<BitPrice>> CalculateBitPricesAsync();
-        Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPricesAsync(AccessoryQuery query);
+        Task<IEnumerable<BitPriceDTO>> CalculateBitPricesAsync();
+        Task<IEnumerable<AccessoryPriceDTO>> CalculateAccessoryPricesAsync(AccessoryQuery query);
         Task<IEnumerable<AuctionDTO>> FilterAuctionsAsync(AuctionQuery query);
 
         Task<IEnumerable<BitPrice>> CalculateBitPricesAsync(IList<Auction> auctions);
