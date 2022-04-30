@@ -27,7 +27,7 @@ namespace Skyblock.UI.ViewModels.List
         {
             if (Auctions is not null)
             {
-                var res = await logic.CalculateAccessoryPrices(Auctions);
+                var res = await logic.CalculateAccessoryPricesAsync(Auctions);
                 AccessoryPrices = new ObservableCollection<AccessoryPrice>(res);
             }
         }

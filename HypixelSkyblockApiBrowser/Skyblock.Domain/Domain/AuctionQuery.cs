@@ -23,20 +23,25 @@ namespace Skyblock.Common.Domain
         [JsonConverter(typeof(StringEnumConverter))]
         public Category SelectedCategory { get; set; }
 
-
         [JsonProperty(Required = Required.Always)]
         public double MaxPrice { get; set; }
         [JsonProperty(Required = Required.Always)]
-        public List<string> LoreContains { get; set; }
-
+        public IList<string> LoreContains { get; set; }
 
         [JsonProperty(Required = Required.Always)]
-        public List<string> LoreDoesNotContain { get; set; }
-
+        public IList<string> LoreDoesNotContain { get; set; }
 
         [JsonProperty(Required = Required.Always)]
         public string MinimumStars { get; set; }
 
+        public AuctionQuery()
+        {
+            ItemName = "";
+            Bin = true;
+            LoreContains = new List<string>();
+            LoreDoesNotContain = new List<string>();
+            MinimumStars = Constants.NoStars;
+        }
         public AuctionQuery(string itemName, bool bin, Rarity selectedRarity, Category selectedCategory, double maxPrice, List<string> loreContains, List<string> loreDoesNotContain, string minimumStars)
         {
             ItemName = itemName;
@@ -54,8 +59,8 @@ namespace Skyblock.Common.Domain
         public override bool Equals(object? obj)
         {
             if (obj is null or not AuctionQuery) return false;
-            var other = (AuctionQuery)obj;
 
+            var other = (AuctionQuery)obj;
             return ItemName.Equals(other.ItemName)
                    && Bin == other.Bin
                    && SelectedRarity == other.SelectedRarity

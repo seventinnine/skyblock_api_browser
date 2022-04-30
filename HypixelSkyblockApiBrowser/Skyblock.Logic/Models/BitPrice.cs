@@ -23,6 +23,12 @@ namespace Skyblock.Logic.Models
         public double AveragePrice { get => averagePrice; set => Set(ref averagePrice, value); }
         public ObservableCollection<Auction> Auctions { get; set; }
 
+        public BitPrice()
+        {
+            Auctions = new();
+            itemName = "";
+        }
+
         public override string ToString()
         {
             return $"{CoinsPerBit,5:N0} ({ItemCount,3:N0}): {ItemName} ({AveragePrice:N0})";

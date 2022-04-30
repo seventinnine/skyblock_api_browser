@@ -53,20 +53,6 @@ namespace Skyblock.UI.ViewModels
             SelectedStars = Constants.NoStars;
         }
         
-        [Obsolete("cock")]
-        public SearchFilter ToSearchFilter()
-        {
-            return new SearchFilter
-            {
-                ItemLore = ItemLoreContains1,
-                ItemName = ItemName,
-                Bin = Bin,
-                SelectedRarity = SelectedRarity,
-                SelectedCategory = SelectedCategory,
-                MaxPrice = int.TryParse(MaxPrice, out int res) ? res : 0
-            };
-        }
-        
         public AuctionQuery ToAuctionQuery()
         {
             return new AuctionQuery()

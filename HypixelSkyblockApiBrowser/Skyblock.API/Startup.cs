@@ -30,7 +30,7 @@ namespace Skyblock.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Skyblock.API", Version = "v1" });
             });
-            services.AddSingleton<RequestCacher>();
+            services.AddSingleton<FilterCache>();
             services.AddSingleton<IAuctionFilterLogic, AuctionFilterLogic>();
         }
 

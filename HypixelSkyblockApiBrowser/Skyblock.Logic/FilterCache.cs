@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Skyblock.Common.Domain;
+using Skyblock.Common.DTOs;
 using Skyblock.Logic.Models;
 
 namespace Skyblock.Logic
 {
-    public class RequestCacher : IRequestCacher
+    public class FilterCache : IFilterCache
     {
         private readonly object auctionLocker = new();
         private readonly object bitsLocker = new();
-        private readonly IDictionary<AuctionQuery, IEnumerable<Auction>> cachedAuctions = new Dictionary<AuctionQuery, IEnumerable<Auction>>();
-        private IEnumerable<BitPrice> cachedBits;
+        private readonly IDictionary<AuctionQuery, IList<AuctionDTO>> cachedAuctions = new Dictionary<AuctionQuery, IList<AuctionDTO>>();
+        private IList<BitPrice> cachedBits = new List<BitPrice>();
 
-        public void ClearCache()
+        public void Reset()
         {
             lock (auctionLocker)
             {
@@ -21,7 +22,7 @@ namespace Skyblock.Logic
             }
         }
 
-        public bool TryGetFromCache(AuctionQuery query, [MaybeNullWhen(false)] out IEnumerable<Auction> cachedResult)
+        public bool TryGetFromCache(AuctionQuery query, [NotNullWhen(true)] out IList<AuctionDTO>? cachedResult)
         {
             lock (auctionLocker)
             {
@@ -31,29 +32,30 @@ namespace Skyblock.Logic
             }
         }
 
-        public bool TryGetFromCache(out IEnumerable<BitPrice> cachedResult)
+        public bool TryGetFromCache([NotNullWhen(true)] out IList<BitPrice>? cachedResult)
         {
-            lock (bitsLocker)
+            lock (auctionLocker)
             {
                 var found = cachedBits is not null;
                 cachedResult = found ? cachedBits : null;
                 return found;
             }
-        }
+    }
 
-        public void Cache(AuctionQuery query, IEnumerable<Auction> filteredResult)
+        public void Put(AuctionQuery query, IList<AuctionDTO> filteredResult)
         {
             lock (auctionLocker)
             {
-                cachedAuctions.Add(query, filteredResult);
+                if (!cachedAuctions.ContainsKey(query))
+                    cachedAuctions.Add(query, new List<AuctionDTO>(filteredResult));
             }
         }
 
-        public void Cache(IEnumerable<BitPrice> filteredResult)
+        public void Put(IList<BitPrice> filteredResult)
         {
             lock (bitsLocker)
             {
-                cachedBits = filteredResult;
+                cachedBits = new List<BitPrice>(filteredResult);
             }
         }
     }

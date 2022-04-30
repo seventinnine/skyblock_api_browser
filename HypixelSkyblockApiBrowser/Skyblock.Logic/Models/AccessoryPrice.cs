@@ -18,7 +18,9 @@ namespace Skyblock.Logic.Models
 
         public AccessoryPrice()
         {
+            itemName = "";
             Rarity = Rarity.Any;
+            Auctions = new();
         }
     
         public override string ToString()

@@ -10,6 +10,8 @@ using Skyblock.Logic.Helper;
 using System.Text.RegularExpressions;
 using AutoMapper;
 using Skyblock.Common.Domain;
+using System.Data.Entity;
+using Skyblock.Common.DTOs;
 
 namespace Skyblock.Logic
 {
@@ -17,25 +19,43 @@ namespace Skyblock.Logic
     {
         private const int ItemCount = 5;
         
-        private readonly object auctionLocker = new();
-        private readonly object bitsLocker = new();
         private IList<Auction> _auctions = new List<Auction>();
-        private readonly RequestCacher cacher = new();
-        private readonly IMapper mapper;
+        private readonly FilterCache cacher = new();
+        private readonly IMapper? mapper;
 
-        public AuctionFilterLogic(IMapper mapper)
+        public AuctionFilterLogic(IMapper? mapper = null)
         {
             this.mapper = mapper;
         }
-        
+
         public async Task<IEnumerable<BitPrice>> CalculateBitPricesAsync()
         {
             if (cacher.TryGetFromCache(out var cachedResult)) return cachedResult;
             var res = (await CalculateBitPricesAsync(_auctions)).ToList();
-            cacher.Cache(res);
+            cacher.Put(res);
             return res;
         }
-        
+
+        public async Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPricesAsync(AccessoryQuery query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<AuctionDTO>> FilterAuctionsAsync(AuctionQuery query)
+        {
+            // try read result from cache
+            if (cacher.TryGetFromCache(query, out var cachedResult)) return mapper!.Map<IList<AuctionDTO>>(cachedResult);
+
+            // queue for evaluation
+
+            IList<Auction> filteredAuctions = await _auctions.AsQueryable().ApplyFilterAsync(query);
+            var mappedAuctions = mapper!.Map<IList<AuctionDTO>>(filteredAuctions);
+            cacher.Put(query, mappedAuctions);
+            return mappedAuctions;
+        }
+
+        #region Old
+
         public async Task<IEnumerable<BitPrice>> CalculateBitPricesAsync(IList<Auction> allAuctions)
         {
             var res = new List<BitPrice>();
@@ -44,11 +64,11 @@ namespace Skyblock.Logic
                 Parallel.ForEach(BitPrices.Items, (item) =>
                 {
                     var filtered = (from curr in allAuctions
-                        where curr.Bin
-                              && curr.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase)
-                              && curr.ItemLore.Contains(item.ItemLore, StringComparison.InvariantCultureIgnoreCase)
-                        orderby curr.StartingBid ascending
-                        select curr).ToList();
+                                    where curr.Bin
+                                          && curr.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase)
+                                          && curr.ItemLore.Contains(item.ItemLore, StringComparison.InvariantCultureIgnoreCase)
+                                    orderby curr.StartingBid ascending
+                                    select curr).ToList();
 
                     var itemCount = filtered.Count;
                     if (itemCount < ItemCount) return;
@@ -60,7 +80,7 @@ namespace Skyblock.Logic
                     {
                         ItemName = item.ToString(),
                         PriceInBits = item.BitPrice,
-                        CoinsPerBit = (int) coinsPerBit,
+                        CoinsPerBit = (int)coinsPerBit,
                         ItemCount = itemCount,
                         AveragePrice = avg,
                         Auctions = new ObservableCollection<Auction>(firstXItems)
@@ -72,11 +92,11 @@ namespace Skyblock.Logic
                     }
                 });
             });
-            
+
             return res.OrderByDescending(item => item.CoinsPerBit);
         }
-        
-        public async Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPrices(IList<Auction> allAuctions)
+
+        public async Task<IEnumerable<AccessoryPrice>> CalculateAccessoryPricesAsync(IList<Auction> allAuctions)
         {
             var res = new List<AccessoryPrice>();
             await Task.Run(() =>
@@ -84,11 +104,11 @@ namespace Skyblock.Logic
                 Parallel.ForEach(Accessories.Items, (item) =>
                 {
                     var filtered = (from curr in allAuctions
-                        where curr.Bin
-                            && curr.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase)
-                            && (item.Rarity == Rarity.Any || curr.Tier == item.Rarity)
-                        orderby curr.StartingBid ascending
-                        select curr).ToList();
+                                    where curr.Bin
+                                        && curr.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase)
+                                        && (item.Rarity == Rarity.Any || curr.Tier == item.Rarity)
+                                    orderby curr.StartingBid ascending
+                                    select curr).ToList();
 
                     var itemCount = filtered.Count;
                     Debug.WriteLine($"{item.ItemName} ({itemCount})");
@@ -111,82 +131,46 @@ namespace Skyblock.Logic
                     }
                 });
             });
-            
+
             return res.OrderBy(item => item.AveragePrice);
         }
 
-        public async Task<IEnumerable<Auction>> FilterAuctionsAsync(IList<Auction> allAuctions, SearchFilter filter)
-        {
-            IEnumerable<Auction> res = new List<Auction>();
-            await Task.Run(() =>
-            {
-                res = from curr in allAuctions.AsParallel()
-                      where curr.Bin
-                      && curr.ItemName.Contains(filter.ItemName, StringComparison.InvariantCultureIgnoreCase)
-                      && curr.ItemLore.Contains(filter.ItemLore, StringComparison.InvariantCultureIgnoreCase)
-                      select curr;
-
-                if (filter.MaxPrice > 0)
-                    res = res.Where(a => a.StartingBid <= filter.MaxPrice);
-                if (filter.SelectedRarity != Rarity.Any)
-                    res = res.Where(a => a.Tier == filter.SelectedRarity);
-                if (filter.SelectedCategory != Category.Any)
-                    res = res.Where(a => a.Category == filter.SelectedCategory);
-
-            });
-            
-            return res;
-        }
-        
-        public async Task<IEnumerable<Auction>> FilterAuctionsAsync(AuctionQuery query)
-        {
-            IList<Auction> filterAuctionsAsync = null;
-
-            // try read result from cache
-            if (cacher.TryGetFromCache(query, out var cachedResult)) return cachedResult;
-
-            await Task.Run(() => filterAuctionsAsync = _auctions.ApplyFilter(query));
-            
-            cacher.Cache(query, filterAuctionsAsync);
-            
-            return filterAuctionsAsync;
-        }
         public async Task<IEnumerable<Auction>> FilterAuctionsAsync(AuctionQuery query, IList<Auction> auctions)
         {
             this._auctions = auctions;
-            return await FilterAuctionsAsync(query);
+            return await auctions.AsQueryable().ApplyFilterAsync(query);
         }
+
+        #endregion
+
     }
 
     public static class AuctionFilterLogicExtensions
     {
-        public static IList<Auction> ApplyFilter(this IList<Auction> auctions, AuctionQuery query)
+        public static async Task<IList<Auction>> ApplyFilterAsync(this IQueryable<Auction> auctions, AuctionQuery query)
         {
-            Regex rx = null;
+            Regex? rx = null;
             try
             {
                 rx = new Regex(query.ItemName, options: RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Could not parse regex'{query.ItemName}' AuctionFilterLogic.ApplyFilterAsync", ex);
                 return new List<Auction>();
             }
-            IEnumerable<Auction> res = auctions;
-            if (query.SelectedCategory != Category.Any)
-                res = res.Where(a => a.Category == query.SelectedCategory);
-            if (query.SelectedRarity != Rarity.Any)
-                res = res.Where(a => a.Tier == query.SelectedRarity);
-            if (query.MaxPrice > 0)
-                res = res.Where(a => a.StartingBid <= query.MaxPrice);
-            res =
-                from curr in res
-                where curr.Bin == query.Bin
-                      && (rx?.IsMatch(curr.ItemName) ?? false)
-                      && (query.LoreContains.All(item => curr.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)) || query.LoreContains.Count == 0)
-                      && !query.LoreDoesNotContain.Any(item => curr.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase))
-                      && (query.MinimumStars == Constants.NoStars || curr.ItemName.Contains(query.MinimumStars))
-                      select curr;
-            return res.OrderBy(a => a.StartingBid).ToList();
+
+            return await auctions
+                .Where(a => query.SelectedCategory != Category.Any || a.Category == query.SelectedCategory)
+                .Where(a => query.SelectedRarity != Rarity.Any || a.Tier == query.SelectedRarity)
+                .Where(a => query.MaxPrice > 0 || a.StartingBid <= query.MaxPrice)
+                .Where(a => a.Bin == query.Bin)
+                .Where(a => rx.IsMatch(a.ItemName))
+                .Where(a => query.LoreContains.All(item => a.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)) || query.LoreContains.Count == 0)
+                .Where(a => !query.LoreDoesNotContain.Any(item => a.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)))
+                .Where(a => query.MinimumStars == Constants.NoStars || a.ItemName.Contains(query.MinimumStars))
+                .OrderBy(a => a.StartingBid)
+                .ToListAsync();
 
         }
     }

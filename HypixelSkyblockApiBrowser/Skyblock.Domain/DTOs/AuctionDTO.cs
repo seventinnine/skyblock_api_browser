@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Skyblock.Common.Domain;
 
-namespace Skyblock.API.DTOs
+namespace Skyblock.Common.DTOs
 {
     public class AuctionDTO
     {
@@ -27,9 +28,19 @@ namespace Skyblock.API.DTOs
         public string Auctioneer { get; set; }
 
         [JsonProperty(Required = Required.Always)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Category Category { get; set; }
 
         [JsonProperty(Required = Required.Always)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Rarity Tier { get; set; }
+
+        public AuctionDTO()
+        {
+            UUID = "";
+            ItemName = "";
+            ItemLore = "";
+            Auctioneer = "";
+        }
     }
 }

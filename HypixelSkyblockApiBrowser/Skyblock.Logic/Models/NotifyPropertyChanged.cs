@@ -6,7 +6,7 @@ namespace Skyblock.Logic.Models
 {
     public class NotifyPropertyChanged : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         // ref sonst kopie und dann könnt ma nix zuweisen falls kein Objekt
         // Attribut: Compiler setzt Membername vom Caller (aufrufendes Property) ein, falls nix drinnen
