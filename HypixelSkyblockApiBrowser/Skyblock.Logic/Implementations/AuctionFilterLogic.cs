@@ -33,22 +33,19 @@ namespace Skyblock.Logic.Implementations
 
         public async Task<IEnumerable<BitPriceDTO>> CalculateBitPricesAsync()
         {
-            var auctionsCopy = apiClient.CurrentData.Get();
-            var bitPrices = await auctionsCopy.ApplyBitPriceFilterAsync();
+            var bitPrices = await apiClient.CurrentData.Get().ApplyBitPriceFilterAsync();
             return mapper.Map<IList<BitPriceDTO>>(bitPrices);
         }
 
         public async Task<IEnumerable<AccessoryPriceDTO>> CalculateAccessoryPricesAsync(AccessoryQuery query)
         {
-            var auctionsCopy = apiClient.CurrentData.Get();
-            var accessoryPrices = await auctionsCopy.ApplyAccessoryPriceFilterAsync(query);
+            var accessoryPrices = await apiClient.CurrentData.Get().ApplyAccessoryPriceFilterAsync(query);
             return mapper.Map<IList<AccessoryPriceDTO>>(accessoryPrices);
         }
 
         public async Task<PagedResult<AuctionDTO>> FilterAuctionsAsync(AuctionQuery query)
         {
-            var auctionsCopy = apiClient.CurrentData.Get();
-            var pagedAuctions = await auctionsCopy.ApplyAuctionFilterAsync(mapper, query);
+            var pagedAuctions = await apiClient.CurrentData.Get().ApplyAuctionFilterAsync(mapper, query);
             return pagedAuctions.MapTo<AuctionDTO>(mapper);
         }
 
@@ -62,7 +59,6 @@ namespace Skyblock.Logic
         public static async Task<IList<BitPrice>> ApplyBitPriceFilterAsync(this IList<Auction> auctions)
         {
             var res = new List<BitPrice>();
-
             await Task.Run(() =>
             {
                 foreach (var item in BitPrices.Items)
@@ -98,7 +94,6 @@ namespace Skyblock.Logic
         public static async Task<IList<AccessoryPrice>> ApplyAccessoryPriceFilterAsync(this IList<Auction> auctions, AccessoryQuery query)
         {
             var res = new List<AccessoryPrice>();
-
             await Task.Run(() =>
             {
                 foreach (var item in Accessories.Items)
@@ -137,7 +132,7 @@ namespace Skyblock.Logic
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Could not parse regex'{query.ItemName}' AuctionFilterLogic.ApplyFilterAsync", ex);
+                Debug.WriteLine($"Could not parse regex'{query.ItemName}' AuctionFilterLogic.ApplyAuctionFilterAsync ({ex.StackTrace})");
                 return new PagedResult<Auction>();
             }
 
@@ -168,7 +163,7 @@ namespace Skyblock.Logic
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Could not parse regex'{query.ItemName}' AuctionFilterLogic.ApplyFilterAsync", ex);
+                Debug.WriteLine($"Could not parse regex'{query.ItemName}' AuctionFilterLogic.ApplyAuctionFilterNotPagedAsync ({ex.StackTrace})");
                 return new List<Auction>();
             }
 
