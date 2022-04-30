@@ -4,11 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Skyblock.Client\Skyblock.Client.csproj" />
-    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Domain.csproj" />
+    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Common.csproj" />
     <ProjectReference Include="..\Skyblock.Logic\Skyblock.Logic.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 ﻿using Skyblock.Logic;
+using Skyblock.Logic.Implementations;
 using Skyblock.UI.ViewModels;
 using System.Windows;
 
@@ -12,7 +13,7 @@ namespace Skyblock.UI
         public MainWindow()
         {
             InitializeComponent();
-            var logic = new AuctionFilterLogic();
+            var logic = new AuctionFilterLogicWPF();
             var model = new MainWindowViewModel(logic);
             DataContext = model;
             Loaded += async (s, e) => await model.InitializeAsync();

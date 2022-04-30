@@ -5,7 +5,7 @@ namespace Skyblock.Logic.Helper
 {
     class BitPrices
     {
-        public static IList<BitItem> Items { get; set; } = new List<BitItem>
+        public static readonly IList<BitItem> Items = new List<BitItem>
         {
             new("God Potion", 1_500, ""),
             new("Kat Flower", 500, ""),
@@ -45,12 +45,14 @@ namespace Skyblock.Logic.Helper
             public string ItemName { get; set; }
             public int BitPrice { get; set; }
             public string ItemLore { get; set; }
+
             public BitItem(string itemName, int price, string itemLore)
             {
                 ItemName = itemName;
                 BitPrice = price;
                 ItemLore = itemLore;
             }
+
             public override string ToString()
             {
                 return $"{ItemName} {ItemLore}";

@@ -1,6 +1,5 @@
-﻿using Skyblock.Domain;
-using Skyblock.Logic;
-using Skyblock.Logic.Models;
+﻿using Skyblock.Common.Domain;
+using Skyblock.Logic.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,13 +11,13 @@ namespace Skyblock.UI.ViewModels.List
 {
     public class AccessoryPricesViewModel : NotifyPropertyChanged
     {
-        public IList<Auction> Auctions { get; set; }
-        private readonly AuctionFilterLogic logic;
-        private ObservableCollection<AccessoryPrice> accessoryPrices;
+        public IList<Auction>? Auctions { get; set; }
+        private readonly AuctionFilterLogicWPF logic;
+        private ObservableCollection<AccessoryPrice>? accessoryPrices;
 
-        public ObservableCollection<AccessoryPrice> AccessoryPrices { get => accessoryPrices; set => Set(ref accessoryPrices, value); }
+        public ObservableCollection<AccessoryPrice>? AccessoryPrices { get => accessoryPrices; set => Set(ref accessoryPrices, value); }
 
-        public AccessoryPricesViewModel(AuctionFilterLogic logic)
+        public AccessoryPricesViewModel(AuctionFilterLogicWPF logic)
         {
             this.logic = logic;
         }
@@ -27,7 +26,7 @@ namespace Skyblock.UI.ViewModels.List
         {
             if (Auctions is not null)
             {
-                var res = await logic.CalculateAccessoryPrices(Auctions);
+                var res = await logic.CalculateAccessoryPricesAsync(Auctions);
                 AccessoryPrices = new ObservableCollection<AccessoryPrice>(res);
             }
         }

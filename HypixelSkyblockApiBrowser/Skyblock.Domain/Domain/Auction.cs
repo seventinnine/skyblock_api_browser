@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyblock.Domain
+namespace Skyblock.Common.Domain
 {
     public class Auction : IComparable
     {
@@ -17,12 +17,21 @@ namespace Skyblock.Domain
         public string UUID { get; set; }
         public Category Category { get; set; }
         public Rarity Tier { get; set; }
-        public int CompareTo(object obj)
+
+        public Auction()
         {
-            if (obj is Auction otherAuction)
-                return StartingBid.CompareTo(otherAuction.StartingBid);
-            else
-                throw new ArgumentException("Object is not a Temperature");
+            ItemName = "";
+            ItemLore = "";
+            Auctioneer = "";
+            UUID = "";
+        }
+
+        public int CompareTo(object? obj)
+        {
+            if (obj is null or not Auction) throw new ArgumentException("Object is not an Auction");
+
+            var other = (Auction)obj;
+            return StartingBid.CompareTo(other.StartingBid);
         }
         public override string ToString()
         {

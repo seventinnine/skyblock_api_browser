@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +22,15 @@ namespace Skyblock.Client
         public Category Category { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public Rarity Tier { get; set; }
+
+        public AuctionData()
+        {
+            Item_Name = "";
+            Short_Name = "";
+            Item_Lore = "";
+            Auctioneer = "";
+            UUID = "";
+        }
     }
 
     public static class AuctionDataExtensions

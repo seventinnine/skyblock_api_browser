@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Skyblock.API.AutoMapper;
-using Skyblock.Domain;
-using Skyblock.Logic;
+using Skyblock.Common.Domain;
+using Skyblock.Common.DTOs;
+using Skyblock.Logic.Interfaces;
 
 namespace Skyblock.API.Controllers
 {
@@ -14,30 +15,31 @@ namespace Skyblock.API.Controllers
     [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     public class AuctionsController : Controller
     {
-        private readonly IMapper mapper;
         private readonly IAuctionFilterLogic logic;
 
-        public AuctionsController(IMapper mapper, IAuctionFilterLogic logic)
+        public AuctionsController(IAuctionFilterLogic logic)
         {
-            this.mapper = mapper;
             this.logic = logic;
         }
 
-        // GET
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Auction>>> GetFiltered([FromQuery] AuctionQuery query)
+        public async Task<ActionResult<IEnumerable<AuctionDTO>>> GetFiltered([FromQuery] AuctionQuery query)
         {
             return Ok(await logic.FilterAuctionsAsync(query));
         }
 
-        // GET
         [HttpGet]
-        [Route("map")]
-        public ActionResult<IClassA> GetMapped()
+        [Route("bits")]
+        public async Task<ActionResult<IEnumerable<AuctionDTO>>> GetBits()
         {
-            var dto = new ClassA_DTO { ID = 69 };
-            var res = mapper.Map<IClassA>(dto);
-            return Ok(res);
+            return Ok(await logic.CalculateBitPricesAsync());
+        }
+
+        [HttpGet]
+        [Route("accessories")]
+        public async Task<ActionResult<PagedResult<AuctionDTO>>> GetAccessories([FromQuery] AccessoryQuery query)
+        {
+            return Ok(await logic.CalculateAccessoryPricesAsync(query));
         }
     }
 }

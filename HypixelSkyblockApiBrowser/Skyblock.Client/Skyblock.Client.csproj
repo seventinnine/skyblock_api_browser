@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Domain.csproj" />
+    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Common.csproj" />
   </ItemGroup>
 
 </Project>

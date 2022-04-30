@@ -1,5 +1,5 @@
 ﻿using Skyblock.Client;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,7 +13,7 @@ namespace Skyblock.UI.ViewModels
         private readonly APIClient client = new();
         private int currentProgress;
         private bool newDataArrived;
-        public IList<Auction> Auctions { get; set; }
+        public IList<Auction>? Auctions { get; set; }
 
         public int CurrentProgress
         {
@@ -21,7 +21,7 @@ namespace Skyblock.UI.ViewModels
             set => Set(ref currentProgress, value);
         }
         public ICommand ReloadDataCommand { get; set; }
-        public event DataLoadedEvent DataLoaded;
+        public event DataLoadedEvent? DataLoaded;
 
         public ApiLoaderViewModel()
         {
@@ -39,14 +39,14 @@ namespace Skyblock.UI.ViewModels
             CurrentProgress = (int)(percentage * 100);
         }
 
-        private Task ReloadData(object _)
+        private Task ReloadData(object? _)
         {
             newDataArrived = false;
             if (Auctions is not null) DataLoaded?.Invoke(Auctions);
             return Task.CompletedTask;
         }
 
-        private bool CanReloadData(object _)
+        private bool CanReloadData(object? _)
         {
             return newDataArrived;
         }
@@ -59,7 +59,7 @@ namespace Skyblock.UI.ViewModels
                 if (invoke) DataLoaded?.Invoke(Auctions);
                 CurrentProgress = 100;
                 newDataArrived = true;
-                await Task.Delay(SLEEP_TIME);
+                //await Task.Delay(SLEEP_TIME);
                 invoke = false;
             }
         }

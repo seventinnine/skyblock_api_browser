@@ -1,5 +1,5 @@
-﻿using Skyblock.Domain;
-using Skyblock.Logic.Models;
+﻿using Skyblock.Common;
+using Skyblock.Common.Domain;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ namespace Skyblock.UI.ViewModels
     {
         public string[] AllRarities { get; set; } = Rarities.List;
         public string[] AllCategories { get; set; } = Categories.List;
-        public string[] AllStars { get; set; } = Misc.StarOptions;
+        public string[] AllStars { get; set; } = Constants.StarOptions;
         private string itemName;
         public string ItemName { get => itemName; set => Set(ref itemName, value); }
         private string itemLoreContains1;
@@ -39,31 +39,17 @@ namespace Skyblock.UI.ViewModels
 
         public SearchFilterViewModel()
         {
-            ItemLoreContains1 = "";
-            ItemLoreContains2 = "";
-            ItemLoreContains3 = "";
-            ItemLoreDoesNotContain1 = "";
-            ItemLoreDoesNotContain2 = "";
-            ItemName = "";
-            Bin = true;
-            SelectedRarity = Rarity.Any;
-            SelectedCategory = Category.Any;
-            MaxPrice = "0";
-            SelectedStars = Misc.NoStars;
-        }
-        
-        [Obsolete("cock")]
-        public SearchFilter ToSearchFilter()
-        {
-            return new SearchFilter
-            {
-                ItemLore = ItemLoreContains1,
-                ItemName = ItemName,
-                Bin = Bin,
-                SelectedRarity = SelectedRarity,
-                SelectedCategory = SelectedCategory,
-                MaxPrice = int.TryParse(MaxPrice, out int res) ? res : 0
-            };
+            itemLoreContains1 = "";
+            itemLoreContains2 = "";
+            itemLoreContains3 = "";
+            itemLoreDoesNotContain1 = "";
+            itemLoreDoesNotContain2 = "";
+            itemName = "";
+            bin = true;
+            selectedRarity = Rarity.Any;
+            selectedCategory = Category.Any;
+            maxPrice = "0";
+            selectedStars = Constants.NoStars;
         }
         
         public AuctionQuery ToAuctionQuery()
