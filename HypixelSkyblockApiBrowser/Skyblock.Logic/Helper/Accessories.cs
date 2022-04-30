@@ -6,7 +6,7 @@ namespace Skyblock.Logic.Helper
 {
     class Accessories
     {
-        public static IList<AccessoriesItem> Items { get; set; } = new List<AccessoriesItem>
+        public static IList<AccessoryItem> Items { get; set; } = new List<AccessoryItem>
         {
             new("Hegemony Artifact"),
             new("Catacombs Expert Ring"),
@@ -41,11 +41,11 @@ namespace Skyblock.Logic.Helper
             new("Hunter Ring")
         };
 
-        internal class AccessoriesItem
+        internal class AccessoryItem
         {
             public string ItemName { get; set; }
             public Rarity Rarity { get; set; }
-            public AccessoriesItem(string itemName, Rarity rarity = Rarity.Any)
+            public AccessoryItem(string itemName, Rarity rarity = Rarity.Any)
             {
                 ItemName = itemName;
                 Rarity = rarity;

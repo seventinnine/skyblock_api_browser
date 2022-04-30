@@ -1,5 +1,4 @@
 ﻿using Skyblock.Common;
-using Skyblock.Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,14 +12,16 @@ using Skyblock.Common.Domain;
 using Skyblock.Common.DTOs;
 using Skyblock.Client;
 using Skyblock.Common.Interfaces;
+using Skyblock.Logic.Implementations;
+using Skyblock.Logic.Interfaces;
 
-namespace Skyblock.Logic
+namespace Skyblock.Logic.Implementations
 {
     public class AuctionFilterLogic : IAuctionFilterLogic
     {
         public const int ItemCountBits = 5;
         public const int ItemCountAccessories = 1;
-        
+
         private readonly IMapper mapper;
         private readonly APIClient apiClient;
 
@@ -52,7 +53,10 @@ namespace Skyblock.Logic
         }
 
     }
+}
 
+namespace Skyblock.Logic
+{
     static class AuctionFilterLogicExtensions
     {
         public static async Task<IList<BitPrice>> ApplyBitPriceFilterAsync(this IList<Auction> auctions)
@@ -196,5 +200,5 @@ namespace Skyblock.Logic
             return new PagedResult<T>(page.Page, totalPages, page.AuctionsPerPage, totalItems, pagedItems);
         }
     }
-    
+
 }

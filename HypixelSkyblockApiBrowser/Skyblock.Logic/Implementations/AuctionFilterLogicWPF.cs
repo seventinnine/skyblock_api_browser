@@ -1,12 +1,11 @@
 ﻿using Skyblock.Common.Domain;
-using Skyblock.Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyblock.Logic
+namespace Skyblock.Logic.Implementations
 {
     public class AuctionFilterLogicWPF
     {

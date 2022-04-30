@@ -4,10 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Skyblock.Logic;
 using Skyblock.API.AutoMapper;
 using Skyblock.Client;
 using Skyblock.API.BackgroundServices;
+using Skyblock.Logic.Implementations;
+using Skyblock.Logic.Interfaces;
 
 namespace Skyblock.API
 {

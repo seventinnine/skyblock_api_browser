@@ -7,7 +7,7 @@ using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-namespace Skyblock.Common
+namespace Skyblock.Common.Helper
 {
     public static class AppDataIO
     {
@@ -75,5 +75,5 @@ namespace Skyblock.Common
         }
 
 
-}
+    }
 }

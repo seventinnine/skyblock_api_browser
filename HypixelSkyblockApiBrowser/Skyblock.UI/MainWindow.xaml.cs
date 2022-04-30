@@ -1,4 +1,5 @@
 ﻿using Skyblock.Logic;
+using Skyblock.Logic.Implementations;
 using Skyblock.UI.ViewModels;
 using System.Windows;
 

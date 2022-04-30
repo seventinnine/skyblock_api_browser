@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Skyblock.API.AutoMapper;
 using Skyblock.Common.Domain;
 using Skyblock.Common.DTOs;
-using Skyblock.Logic;
+using Skyblock.Logic.Interfaces;
 
 namespace Skyblock.API.Controllers
 {

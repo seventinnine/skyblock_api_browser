@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Skyblock.Common.Domain;
 using Skyblock.Common.DTOs;
-using Skyblock.Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

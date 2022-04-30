@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using Skyblock.Common.Domain;
 using Skyblock.Common.DTOs;
-using Skyblock.Logic.Models;
 
-namespace Skyblock.Logic
+namespace Skyblock.Logic.Interfaces
 {
     public interface IAuctionFilterLogic
     {

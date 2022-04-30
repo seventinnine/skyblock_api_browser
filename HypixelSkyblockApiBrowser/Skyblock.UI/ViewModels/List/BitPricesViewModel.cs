@@ -1,6 +1,5 @@
 ﻿using Skyblock.Common.Domain;
-using Skyblock.Logic;
-using Skyblock.Logic.Models;
+using Skyblock.Logic.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
