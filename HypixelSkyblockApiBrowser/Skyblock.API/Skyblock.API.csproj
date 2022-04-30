@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Domain.csproj" />
+    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Common.csproj" />
     <ProjectReference Include="..\Skyblock.Logic\Skyblock.Logic.csproj" />
   </ItemGroup>
 

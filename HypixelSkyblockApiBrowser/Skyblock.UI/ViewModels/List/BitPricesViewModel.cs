@@ -1,4 +1,4 @@
-﻿using Skyblock.Domain;
+﻿using Skyblock.Common.Domain;
 using Skyblock.Logic;
 using Skyblock.Logic.Models;
 using System;

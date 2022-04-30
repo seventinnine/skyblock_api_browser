@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Domain.csproj" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Skyblock.Domain\Skyblock.Common.csproj" />
   </ItemGroup>
 
 </Project>

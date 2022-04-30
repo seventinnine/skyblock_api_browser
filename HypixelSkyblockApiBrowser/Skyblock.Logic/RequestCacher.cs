@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 using Skyblock.Logic.Models;
 
 namespace Skyblock.Logic

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 
 namespace Skyblock.Logic.Models
 {

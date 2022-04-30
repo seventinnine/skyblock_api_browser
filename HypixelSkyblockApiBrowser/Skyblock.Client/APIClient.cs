@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

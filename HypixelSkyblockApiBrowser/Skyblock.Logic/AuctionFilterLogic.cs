@@ -1,4 +1,4 @@
-﻿using Skyblock.Domain;
+﻿using Skyblock.Common;
 using Skyblock.Logic.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Skyblock.Logic.Helper;
 using System.Text.RegularExpressions;
+using AutoMapper;
+using Skyblock.Common.Domain;
 
 namespace Skyblock.Logic
 {
@@ -19,6 +21,12 @@ namespace Skyblock.Logic
         private readonly object bitsLocker = new();
         private IList<Auction> _auctions = new List<Auction>();
         private readonly RequestCacher cacher = new();
+        private readonly IMapper mapper;
+
+        public AuctionFilterLogic(IMapper mapper)
+        {
+            this.mapper = mapper;
+        }
         
         public async Task<IEnumerable<BitPrice>> CalculateBitPricesAsync()
         {
@@ -161,7 +169,7 @@ namespace Skyblock.Logic
             }
             catch (Exception ex)
             {
-
+                return new List<Auction>();
             }
             IEnumerable<Auction> res = auctions;
             if (query.SelectedCategory != Category.Any)
@@ -176,7 +184,7 @@ namespace Skyblock.Logic
                       && (rx?.IsMatch(curr.ItemName) ?? false)
                       && (query.LoreContains.All(item => curr.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)) || query.LoreContains.Count == 0)
                       && !query.LoreDoesNotContain.Any(item => curr.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase))
-                      && (query.MinimumStars == Misc.NoStars || curr.ItemName.Contains(query.MinimumStars))
+                      && (query.MinimumStars == Constants.NoStars || curr.ItemName.Contains(query.MinimumStars))
                       select curr;
             return res.OrderBy(a => a.StartingBid).ToList();
 

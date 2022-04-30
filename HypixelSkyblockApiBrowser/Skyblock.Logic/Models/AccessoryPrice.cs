@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 
 namespace Skyblock.Logic.Models
 {

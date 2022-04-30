@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32002.261
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.Domain", "Skyblock.Domain\Skyblock.Domain.csproj", "{66D0ECF5-B245-415C-A1C0-E3E4D384DFD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.Common", "Skyblock.Domain\Skyblock.Common.csproj", "{66D0ECF5-B245-415C-A1C0-E3E4D384DFD2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.Client", "Skyblock.Client\Skyblock.Client.csproj", "{7EFD6213-10D6-4711-A42F-73F7641722E1}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.Logic", "Skyblock.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.UI", "Skyblock.UI\Skyblock.UI.csproj", "{D78CBF20-3D24-4D10-93E3-1B4D1F6A3C29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyblock.API", "Skyblock.API\Skyblock.API.csproj", "{E7E29EF7-95E3-464B-BFD2-4AC15F471222}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyblock.API", "Skyblock.API\Skyblock.API.csproj", "{E7E29EF7-95E3-464B-BFD2-4AC15F471222}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

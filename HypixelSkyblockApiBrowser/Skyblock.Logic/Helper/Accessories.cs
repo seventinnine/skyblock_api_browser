@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 
 namespace Skyblock.Logic.Helper
 {

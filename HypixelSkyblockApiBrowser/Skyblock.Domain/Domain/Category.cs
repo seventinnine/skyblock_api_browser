@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyblock.Domain
+namespace Skyblock.Common.Domain
 {
-    public enum Category {
+    public enum Category
+    {
         Any,
         Weapon,
         Armor,

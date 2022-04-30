@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyblock.Domain
+namespace Skyblock.Common.Domain
 {
     public class Auction : IComparable
     {
@@ -22,7 +22,7 @@ namespace Skyblock.Domain
             if (obj is Auction otherAuction)
                 return StartingBid.CompareTo(otherAuction.StartingBid);
             else
-                throw new ArgumentException("Object is not a Temperature");
+                throw new ArgumentException("Object is not an Auction");
         }
         public override string ToString()
         {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 using Skyblock.Logic.Models;
 
 namespace Skyblock.Logic

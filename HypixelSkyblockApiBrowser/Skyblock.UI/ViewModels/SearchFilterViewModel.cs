@@ -1,4 +1,5 @@
-﻿using Skyblock.Domain;
+﻿using Skyblock.Common;
+using Skyblock.Common.Domain;
 using Skyblock.Logic.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Skyblock.UI.ViewModels
     {
         public string[] AllRarities { get; set; } = Rarities.List;
         public string[] AllCategories { get; set; } = Categories.List;
-        public string[] AllStars { get; set; } = Misc.StarOptions;
+        public string[] AllStars { get; set; } = Constants.StarOptions;
         private string itemName;
         public string ItemName { get => itemName; set => Set(ref itemName, value); }
         private string itemLoreContains1;
@@ -49,7 +50,7 @@ namespace Skyblock.UI.ViewModels
             SelectedRarity = Rarity.Any;
             SelectedCategory = Category.Any;
             MaxPrice = "0";
-            SelectedStars = Misc.NoStars;
+            SelectedStars = Constants.NoStars;
         }
         
         [Obsolete("cock")]

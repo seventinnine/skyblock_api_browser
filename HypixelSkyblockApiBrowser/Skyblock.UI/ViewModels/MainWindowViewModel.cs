@@ -1,9 +1,9 @@
-﻿using Skyblock.Domain;
-using Skyblock.UI.ViewModels.List;
+﻿using Skyblock.UI.ViewModels.List;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Skyblock.Logic;
 using System.Windows.Input;
+using Skyblock.Common.Domain;
 
 namespace Skyblock.UI.ViewModels
 {

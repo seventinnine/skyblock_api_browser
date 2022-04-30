@@ -1,5 +1,5 @@
 ﻿using Skyblock.Client;
-using Skyblock.Domain;
+using Skyblock.Common.Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
