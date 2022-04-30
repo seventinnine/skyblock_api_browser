@@ -20,7 +20,7 @@ namespace Skyblock.Logic.Implementations
     public class AuctionFilterLogic : IAuctionFilterLogic
     {
         public const int ItemCountBits = 5;
-        public const int ItemCountAccessories = 1;
+        public const int ItemCountAccessories = 5;
 
         private readonly IMapper mapper;
         private readonly APIClient apiClient;
@@ -110,7 +110,7 @@ namespace Skyblock.Logic
                         .OrderBy(a => a.StartingBid)
                         .ToList();
 
-                    if (filtered.Count < AuctionFilterLogic.ItemCountAccessories) continue;
+                    if (filtered.Count < 1) continue;
 
                     var firstXItems = filtered.Take(AuctionFilterLogic.ItemCountAccessories).ToList();
                     double avg = firstXItems.Average(it => it.StartingBid);
@@ -119,7 +119,7 @@ namespace Skyblock.Logic
                         ItemName = item.ToString(),
                         ItemCount = filtered.Count,
                         Rarity = item.Rarity,
-                        AveragePrice = (int)avg,
+                        AveragePrice = filtered.ElementAt(0).StartingBid,
                         Auctions = new ObservableCollection<Auction>(firstXItems)
                     };
                     res.Add(newEntry);

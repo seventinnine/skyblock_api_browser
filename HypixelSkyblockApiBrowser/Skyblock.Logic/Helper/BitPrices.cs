@@ -23,6 +23,7 @@ namespace Skyblock.Logic.Helper
             //new("Rune Sack", 10_000, ""),
             new("Autopet Rules 2-Pack", 21_000, ""),
             new("Kismet Feather", 1_350, ""),
+            new("Inferno Fuel Block", 50, ""),
             new("Enchanted Book", 4_000, "Expertise I"),
             new("Enchanted Book", 4_000, "Compact I"),
             new("Enchanted Book", 4_000, "Cultivating I"),
