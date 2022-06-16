@@ -1,5 +1,5 @@
 # skyblock_api_browser
-WPF applicaton whichs allows you to conveniently browse through the Hypixel Skyblock Auction-API.
+WPF applicaton whichs allows you to conveniently browse through the [Hypixel Skyblock Auction-API](https://api.hypixel.net/#tag/SkyBlock).
 
 # What it can do
 
