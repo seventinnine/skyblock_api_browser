@@ -100,7 +100,9 @@ namespace Skyblock.Logic
                 {
                     var filtered = auctions
                         .Where(a => a.Bin == true)
-                        .Where(a => a.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase))
+                        .Where(a => item.NameIsExact ? 
+                            a.ItemName.EndsWith(item.ItemName, StringComparison.InvariantCultureIgnoreCase) : // ignore legacy reforges
+                            a.ItemName.Contains(item.ItemName, StringComparison.InvariantCultureIgnoreCase))
                         .Where(a => item.Rarity == Rarity.Any || a.Tier == item.Rarity)
                         .OrderBy(a => a.StartingBid)
                         .ToList();
