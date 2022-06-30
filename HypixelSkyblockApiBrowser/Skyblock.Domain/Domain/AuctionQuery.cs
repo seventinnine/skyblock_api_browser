@@ -74,7 +74,7 @@ namespace Skyblock.Common.Domain
                    && Bin == other.Bin
                    && SelectedRarity == other.SelectedRarity
                    && SelectedCategory == other.SelectedCategory
-                   && Math.Abs(MaxPrice - other.MaxPrice) < Constants.DoubleComparisonToleranceLow
+                   && Math.Abs(MaxPrice - other.MaxPrice) < AppSettings.Instance.DoubleComparisonToleranceLow
                    && LoreContains.SequenceEqual(other.LoreContains)
                    && LoreDoesNotContain.SequenceEqual(other.LoreDoesNotContain)
                    && MinimumStars.Equals(other.MinimumStars);

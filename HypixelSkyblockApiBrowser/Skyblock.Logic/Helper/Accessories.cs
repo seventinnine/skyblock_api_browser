@@ -16,11 +16,12 @@ namespace Skyblock.Logic.Helper
             {
                 throw new ApplicationException($"Could not parse contents of {Constants.AccessoriesPath}.");
             }
-            Items = JsonConvert.DeserializeObject<List<AccessoryItem>>(accessoriesData)!;
-            if (Items is null)
+            var items = JsonConvert.DeserializeObject<List<AccessoryItem>>(accessoriesData);
+            if (items is null)
             {
                 throw new ApplicationException($"Could not deserialize contents of {Constants.AccessoriesPath}.");
             }
+            Items = items;
         }
         public static IList<AccessoryItem> Items { get; set; } = new List<AccessoryItem>();
         /*

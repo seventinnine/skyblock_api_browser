@@ -144,7 +144,7 @@ namespace Skyblock.Logic
                 res = auctions
                 .Where(a => query.SelectedCategory == Category.Any || a.Category == query.SelectedCategory)
                 .Where(a => query.SelectedRarity == Rarity.Any || a.Tier == query.SelectedRarity)
-                .Where(a => query.MaxPrice <= Constants.DoubleComparisonToleranceLow || a.StartingBid <= query.MaxPrice)
+                .Where(a => query.MaxPrice <= AppSettings.Instance.DoubleComparisonToleranceLow || a.StartingBid <= query.MaxPrice)
                 .Where(a => a.Bin == query.Bin)
                 .Where(a => rx.IsMatch(a.ItemName))
                 .Where(a => query.LoreContains.All(item => a.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)) || query.LoreContains.Count == 0)
@@ -175,7 +175,7 @@ namespace Skyblock.Logic
                 res = auctions
                 .Where(a => query.SelectedCategory == Category.Any || a.Category == query.SelectedCategory)
                 .Where(a => query.SelectedRarity == Rarity.Any || a.Tier == query.SelectedRarity)
-                .Where(a => query.MaxPrice <= Constants.DoubleComparisonToleranceLow || a.StartingBid <= query.MaxPrice)
+                .Where(a => query.MaxPrice <= AppSettings.Instance.DoubleComparisonToleranceLow || a.StartingBid <= query.MaxPrice)
                 .Where(a => a.Bin == query.Bin)
                 .Where(a => rx.IsMatch(a.ItemName))
                 .Where(a => query.LoreContains.All(item => a.ItemLore.Contains(item, StringComparison.InvariantCultureIgnoreCase)) || query.LoreContains.Count == 0)

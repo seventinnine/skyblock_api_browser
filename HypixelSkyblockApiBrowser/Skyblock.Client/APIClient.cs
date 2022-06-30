@@ -16,7 +16,6 @@ namespace Skyblock.Client
     public delegate void ProgressChangedEvent(double completed);
     public class APIClient
     {
-        private const string key = "?key=cf86f155-4dff-4a6a-ad08-2d927493ac0f";
         private static readonly int API_LIMIT_MS = 502;
         private readonly static HttpClient client = new();
         private bool useCached = false;
@@ -45,7 +44,7 @@ namespace Skyblock.Client
 
         private async Task<CallResult?> GetCallResult(int pageNum)
         {
-            var url = $"{Constants.APIEndpoint}{key}&page={pageNum}";
+            var url = $"{AppSettings.Instance.APIEndpoint}?key={AppSettings.Instance.APIKey}&page={pageNum}";
             HttpResponseMessage response = await client.GetAsync(url);
 
             string strResult = await response.Content.ReadAsStringAsync();
